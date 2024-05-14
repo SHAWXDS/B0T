@@ -1,5 +1,5 @@
 {
-  "name": "auto-messenger-bot",
+  "name": "AI",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "SHAW-DON",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
