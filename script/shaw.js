@@ -1,7 +1,7 @@
 const {
   Shaw
 } = require('hercai');
-const herc = new Hercai();
+const herc = new hercai();
 module.exports.config = {
   name: 'shaw',
   version: '1.0.0',
