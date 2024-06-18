@@ -1,6 +1,6 @@
 const {
   Shaw
-} = require('shaw');
+} = require('hercai');
 const herc = new Hercai();
 module.exports.config = {
   name: 'shaw',
