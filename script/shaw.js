@@ -1,14 +1,14 @@
 const {
-  Shaw
+  Hercai
 } = require('hercai');
-const herc = new hercai();
+const herc = new Hercai();
 module.exports.config = {
   name: 'shaw',
   version: '1.0.0',
   role: 0,
   hasPrefix: true,
-  description: "An AI command powered by shaw",
-  usage: "shaw [prompt]",
+  description: "An AI command powered by Shaw",
+  usage: "hercai [prompt]",
   credits: 'Developer',
   cooldown: 3,
 };
@@ -19,7 +19,7 @@ module.exports.run = async function({
 }) {
   const input = args.join(' ');
   if (!input) {
-    api.sendMessage(`Please provide a question or statement after 'shaw'. For example: 'shaw app link [shaw-don.replit.app]?'`, event.threadID, event.messageID);
+    api.sendMessage(`Please provide a question or statement after 'Shaw'. For example: 'SHAW - APP [ shaw-don.replit.app ]'`, event.threadID, event.messageID);
     return;
   }
   api.sendMessage(`🔍 "${input}"`, event.threadID, event.messageID);
