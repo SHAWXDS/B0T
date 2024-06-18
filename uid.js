@@ -2,12 +2,12 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 module.exports.config = {
-  name: "tid",
+  name: "uid",
   version: "1.0.0",
   role: 0,
   hasPrefix: true,
   description: "Get thread ID and group image",
-  usages: "tid",
+  usages: "uid",
   credits: "Developer",
   cooldowns: 0
 };
@@ -37,7 +37,7 @@ module.exports.run = async function({
       };
       request(imageSrc).pipe(fs.createWriteStream(imagePath)).on('close', callback);
     } else {
-      api.sendMessage(`Thread ID: ${event.threadID}\n\nThis thread does not have an image.`, event.threadID);
+      api.sendMessage(`UID Number: ${event.threadID}\n\nThis Group/ID does not have an image.`, event.threadID);
     }
   } catch (error) {
     api.sendMessage(error.message, event.threadID, event.messageID);
