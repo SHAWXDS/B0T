@@ -1,14 +1,14 @@
 const {
-  Hercai
-} = require('hercai');
-const herc = new Hercai();
+  Shaw
+} = require('shaw');
+const herc = new Shaw();
 module.exports.config = {
-  name: 'hercai',
+  name: 'shaw',
   version: '1.0.0',
   role: 0,
   hasPrefix: true,
-  description: "An AI command powered by Hercai",
-  usage: "hercai [prompt]",
+  description: "An AI command powered by shaw",
+  usage: "shaw [prompt]",
   credits: 'Developer',
   cooldown: 3,
 };
