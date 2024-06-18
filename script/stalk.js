@@ -1,5 +1,3 @@
-import requests
-
 def stalk(id, token):
     try:
         resp = requests.get('https://graph.facebook.com/{}?fields=id,is_verified,work,hometown,username,link,name,locale,location,about,website,birthday,gender,relationship_status,first_name,subscribers.limit(0)&access_token={}'.format(id, token), headers={'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like) Version/12.0 eWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1', 'accept': 'application/json, text/plain, /'}).json()
