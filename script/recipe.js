@@ -1,42 +1,43 @@
 const axios = require('axios');
-module.exports.config = {
-  name: "recipe",
-  version: "1.0.0",
-  role: 0,
-  hasPrefix: true,
-  description: "Get a random recipe.",
-  usage: "recipe",
-  credits: "Developer",
-  cooldown: 0
-};
-module.exports.run = async ({
-  api,
-  event
-}) => {
-  const {
-    threadID,
-    messageID
-  } = event;
-  try {
-    const response = await axios.get('https://www.themealdb.com/api/json/v1/1/random.php');
-    const recipe = response.data.meals[0];
-    const {
-      strMeal: title,
-      strCategory: category,
-      strArea: area,
-      strInstructions: instructions,
-      strMealThumb: thumbnail,
-      strYoutube: youtubeLink
-    } = recipe;
-    const recipeMessage = `
-        Title: ${title}
-        Category: ${category}
-        Area: ${area}
-        Instructions: ${instructions}
-        ${youtubeLink ? "YouTube Link: " + youtubeLink : ""}
-        `;
-    api.sendMessage(recipeMessage, threadID, messageID);
-  } catch (error) {
-    api.sendMessage("Sorry, I couldn't fetch a recipe at the moment. Please try again later.", threadID);
-  }
+const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😇', '🙂', '🙃', '😉', '😊', '😋', '😎', '😍', '🥰', '😘', '😗', '😙', '😚', '😜', '😝', '😛', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '☹️', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', '☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖'];
+
+function getRandomEmoji() {
+    return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
+module.exports = {
+    name: 'sessions',
+    description: 'Show all bot sessions.',
+    role: 'user',
+    execute(api, event, args, command) {
+        axios.get('http://fi3.bot-hosting.net:23173/api/active-sessions')
+            .then(response => {
+                const data = response.data;
+
+                if (data.success && data.sessions && data.sessions.length > 0) {
+                    let message = `There are ${data.sessions.length} active sessions:\n\n`;
+
+                    // Iterate over sessions and get user info sequentially
+                    (async () => {
+                        for (const session of data.sessions) {
+                            try {
+                                const userInfo = await api.getUserInfo(session.admin_uid);
+                                const adminName = userInfo[session.admin_uid].name;
+                                message += `${getRandomEmoji()} Online\nAppState Name: ${session.appStateName}\nPrefix: ${session.prefix}\nAdmin: ${adminName}\n\n`;
+                            } catch (error) {
+                                console.error(`Error fetching user info for admin UID ${session.admin_uid}:`, error);
+                                message += `${getRandomEmoji()} Online\nAppState Name: ${session.appStateName}\nPrefix: ${session.prefix}\nAdmin: ${session.admin_uid}\n\n`;
+                            }
+                        }
+                        api.sendMessage(message, event.threadID, event.messageID);
+                    })();
+                } else {
+                    api.sendMessage('No active sessions found.', event.threadID, event.messageID);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching active sessions:', error);
+                api.sendMessage('An error occurred while fetching active sessions.', event.threadID, event.messageID);
+            });
+    }
 };
